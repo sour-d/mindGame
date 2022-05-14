@@ -1,10 +1,12 @@
 const { writeData } = require('./library.js');
 
 const data = {
-  'correctPath': [1, 4, 5, 6, 7, 8, 9],
+  'correctPath': [2, 6, 7, 11, 15],
   'currentPosition': null,
-  'rows': 3,
-  'columns': 3
+  'rows': 4,
+  'columns': 4,
+  'prevPosition': null,
+  'lastMove': 'pass'
 };
 
 writeData('./data.json', JSON.stringify(data));
