@@ -7,7 +7,8 @@ const correctPath = (data) => data.correctPath;
 const currentPosition = (data) => data.currentPosition;
 // const prevPosition = (data) => data.prevPosition;
 const totalGrids = (data) => columns(data) * rows(data);
-const updatePos = (data, pos) => {
+
+const updatePos = function (data, pos) {
   data.prevPosition = data.currentPosition;
   data.currentPosition = pos;
   return data;
@@ -47,11 +48,10 @@ const displayGameStatus = function (data) {
 
 const allMoves = function (currentPosition, totalColumns) {
   const possibleMoves = [
-    currentPosition - totalColumns,
-    currentPosition + totalColumns,
-    currentPosition + 1,
-    currentPosition - 1
+    currentPosition - totalColumns, currentPosition + totalColumns,
+    currentPosition + 1, currentPosition - 1
   ];
+  
   if (currentPosition % totalColumns === 1) {
     possibleMoves.splice(3, 1);
   }
@@ -78,15 +78,19 @@ const isFinished = function (data) {
 
 const move = function (data, destination) {
   let message = '\nGood Choice! 👍';
+
+  //wrong move
   if (!isValidMove(data, destination) || isBombPresent(data, destination)) {
     data.lastMove = 'fail';
     message = '\nBoom!! 🔥💣';
   }
+
   const updatedData = updatePos(data, destination);
   if (isFinished(updatedData)) {
     data.lastMove = null;
   }
 
+  //displaying game status
   displayGameStatus(updatedData, destination);
   console.log(message);
   return updatedData;
@@ -96,8 +100,3 @@ exports.initateMove = move;
 exports.readData = readData;
 exports.writeData = writeData;
 exports.displayGameStatus = displayGameStatus;
-exports.currentPosition = currentPosition;
-exports.isFinished = isFinished;
-exports.totalGrids = totalGrids;
-exports.rows = rows;
-exports.columns = columns;
