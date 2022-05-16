@@ -25,16 +25,16 @@ const writeData = function (filePath, data) {
 
 const formattedGrids = function (data) {
   const lastMoveStatus = data.lastMove ? '🧍' : '🔥';
-  let counter = data.totalGrids + 1;
+  let counter = 0;
   return Array(data.totalRows).fill(0).map(function () {
     return Array(data.totalColumns).fill(0).map(function () {
-      counter = counter - 1;
+      counter = counter + 1;
       if (counter === data.currentPosition) {
         return lastMoveStatus;
       }
       return ''.concat(counter).padStart(2, 0);
-    }).reverse().join(' ');
-  });
+    }).join(' ');
+  }).reverse();
 };
 
 const displayGameStatus = function (data, message) {
