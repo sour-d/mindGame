@@ -6,9 +6,6 @@ const main = function (destination) {
 
   const updatedData = initateMove(data, destination);
   writeData(dataFilePath, JSON.stringify(updatedData));
-
-  // const exitStatus = + updatedData.lastMove;
-  // process.exit(exitStatus);
 };
 
 main(+process.argv[2]);

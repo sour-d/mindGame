@@ -77,6 +77,7 @@ const move = function (data, destination) {
 
   //wrong move
   if (!isValidMove(data, destination) || isBombPresent(data, destination)) {
+    data.isFinished = true;
     data.lastMove = false;
     message = 'Boom!! 🔥💣';
   }
