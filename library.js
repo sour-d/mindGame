@@ -1,23 +1,19 @@
+/* eslint-disable max-statements */
 /* eslint-disable no-magic-numbers */
 const fs = require('fs');
 
-const columns = (data) => data.columns;
-const rows = (data) => data.rows;
-const correctPath = (data) => data.correctPath;
-const currentPosition = (data) => data.currentPosition;
-// const prevPosition = (data) => data.prevPosition;
-const totalGrids = (data) => columns(data) * rows(data);
-
-const updatePos = function (data, pos) {
-  data.prevPosition = data.currentPosition;
-  data.currentPosition = pos;
-  return data;
-};
-
 const readData = function (filePath) {
   try {
-    const data = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(data);
+    let data = fs.readFileSync(filePath, 'utf8');
+    data = JSON.parse(data);
+
+    data.totalGrids = data.totalRows * data.totalColumns;
+    data.updatePosition = function (position) {
+      this.prevPosition = this.currentPosition;
+      this.currentPosition = position;
+      return this;
+    };
+    return data;
   } catch (error) {
     return error;
   }
@@ -27,23 +23,23 @@ const writeData = function (filePath, data) {
   fs.writeFileSync(filePath, data, 'utf8');
 };
 
-const generateFormatGrids = function (data) {
-  const grids = Array(totalGrids(data)).fill('⬛️');
-  if (!currentPosition(data)) {
-    return grids;
-  }
-  const destStatus = data.lastMove === 'fail' ? '🟥' : '🟩';
-  grids.splice(currentPosition(data) - 1, 1, destStatus);
-  return grids;
+const formattedGrids = function (data) {
+  const lastMoveStatus = data.lastMove ? '🧍' : '🔥';
+  let counter = data.totalGrids + 1;
+  return Array(data.totalRows).fill(0).map(function () {
+    return Array(data.totalColumns).fill(0).map(function () {
+      counter = counter - 1;
+      if (counter === data.currentPosition) {
+        return lastMoveStatus;
+      }
+      return ''.concat(counter).padStart(2, 0);
+    }).reverse().join(' ');
+  });
 };
 
-const displayGameStatus = function (data) {
-  const formattedGrids = generateFormatGrids(data);
-  for (let row = rows(data) - 1; row >= 0; row--) {
-    const rowStart = row * rows(data);
-    const rowEnd = rowStart + rows(data);
-    console.log(...formattedGrids.slice(rowStart, rowEnd));
-  }
+const displayGameStatus = function (data, message) {
+  const grids = formattedGrids(data);
+  console.log(grids.join('\n'), message ? '\n\n' + message : '');
 };
 
 const allMoves = function (currentPosition, totalColumns) {
@@ -61,38 +57,38 @@ const allMoves = function (currentPosition, totalColumns) {
   return possibleMoves;
 };
 
-const isValidMove = function (data, destination) {
-  if (currentPosition(data) === null && destination <= columns(data)) {
+const isValidMove = function ({currentPosition, totalColumns}, destination) {
+  if (currentPosition === null && destination <= totalColumns) {
     return true;
   }
-  return allMoves(currentPosition(data), columns(data)).includes(destination);
+  return allMoves(currentPosition, totalColumns).includes(destination);
 };
 
-const isBombPresent = function (data, destination) {
-  return !correctPath(data).includes(destination);
+const isBombPresent = function ({validPaths}, destination) {
+  return !validPaths.includes(destination);
 };
 
-const isFinished = function (data) {
-  return totalGrids(data) - columns(data) < currentPosition(data);
+const isFinished = function ({totalGrids, totalColumns, currentPosition}) {
+  return totalGrids - totalColumns < currentPosition;
 };
 
 const move = function (data, destination) {
-  let message = '\nGood Choice! 👍';
+  let message = 'Great Choice! 👍';
 
   //wrong move
   if (!isValidMove(data, destination) || isBombPresent(data, destination)) {
-    data.lastMove = 'fail';
-    message = '\nBoom!! 🔥💣';
+    data.lastMove = false;
+    message = 'Boom!! 🔥💣';
   }
 
-  const updatedData = updatePos(data, destination);
+  const updatedData = data.updatePosition(destination);
   if (isFinished(updatedData)) {
-    data.lastMove = null;
+    data.isFinished = true;
+    message = 'You won!';
   }
 
   //displaying game status
-  displayGameStatus(updatedData, destination);
-  console.log(message);
+  displayGameStatus(updatedData, message);
   return updatedData;
 };
 
