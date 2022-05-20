@@ -1,10 +1,12 @@
 **TODO**
 
 - [ ] Refactor valid move
+- [ ] extract logic to check move is first move or not
 
 
 **Done**
 
+- [x] Implement check for first move
 - [x] test for
   - [x] `updateMove`
   - [x] `isBombPresent`

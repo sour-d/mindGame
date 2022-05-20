@@ -69,6 +69,28 @@ describe('validateMove', () => {
   it('move is invaild but don\'t have bomb', () => {
     assert.deepStrictEqual(validateMove(data, 8), false);
   });
+  it('should return true if the first move in first row', () => {
+    const data = {
+      'validPaths': [2, 5, 8],
+      'currentPosition': null,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(validateMove(data, 2), true);
+  });
+  it('should return true if the first move not in first row', () => {
+    const data = {
+      'validPaths': [2, 5, 8],
+      'currentPosition': null,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(validateMove(data, 7), false);
+  });
 });
 
 describe('validMoves', () => {
@@ -148,6 +170,28 @@ describe('isDirectionValid', () => {
     const data = {
       'validPaths': [2, 3, 4],
       'currentPosition': 5,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(isDirectionValid(data, 9), false);
+  });
+  it('should return false if the first move is in first row', () => {
+    const data = {
+      'validPaths': [2, 3, 4],
+      'currentPosition': null,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(isDirectionValid(data, 2), true);
+  });
+  it('should return false if the first move is not in first row', () => {
+    const data = {
+      'validPaths': [2, 3, 4],
+      'currentPosition': null,
       'previousPosition': null,
       'lastRoundStatus': true,
       'totalRow': 3,

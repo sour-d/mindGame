@@ -19,7 +19,7 @@ const validMoves = function ({ totalColumn, currentPosition }) {
     currentPosition - totalColumn, currentPosition + totalColumn,
     currentPosition + 1, currentPosition - 1
   ];
-  
+
   if (currentPosition % totalColumn === 1) {
     moves.splice(3, 1);
   }
@@ -30,7 +30,11 @@ const validMoves = function ({ totalColumn, currentPosition }) {
 };
 
 const isDirectionValid = function (data, destination) {
-  return validMoves(data, destination).includes(destination);
+  return (
+    validMoves(data, destination).includes(destination)
+    ||
+    (data.currentPosition === null && destination < data.totalColumn)
+  );
 };
 
 const validateMove = function (data, destination) {
