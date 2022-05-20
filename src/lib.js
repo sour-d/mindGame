@@ -53,3 +53,4 @@ exports.playRound = playRound;
 exports.validateMove = validateMove;
 exports.validMoves = validMoves;
 exports.updateMove = updateMove;
+exports.isBombPresent = isBombPresent;

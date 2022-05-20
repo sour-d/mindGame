@@ -1,7 +1,7 @@
 **TODO**
 - [ ] test for
   - [x] `updateMove`
-  - [ ] `isBombPresent`
+  - [x] `isBombPresent`
   - [x] `validMoves`
   - [ ] `isDirectionValid`
   - [x] `validateMove`

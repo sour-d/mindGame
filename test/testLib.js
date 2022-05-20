@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { playRound, validateMove, validMoves, updateMove } = require('../src/lib.js');
+const { playRound, validateMove, validMoves, updateMove, isBombPresent } = require('../src/lib.js');
 
 describe('playRound', () => {
   it('should change currentPositon if move is valid', () => {
@@ -97,5 +97,30 @@ describe('updateMove', () => {
       'totalColumn': 3,
     };
     assert.deepStrictEqual(updateMove(data, 3), expected);
+  });
+});
+
+describe('updateMove', () => {
+  it('should return true if bomb present', () => {
+    const data = {
+      'validPaths': [2, 3, 4],
+      'currentPosition': 2,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(isBombPresent(data, 5), true);
+  });
+  it('should return false if bomb not present', () => {
+    const data = {
+      'validPaths': [2, 3, 4],
+      'currentPosition': 2,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(isBombPresent(data, 2), false);
   });
 });
