@@ -1,14 +1,17 @@
 **TODO**
-- [ ] test for
+
+- [ ] Refactor valid move
+
+
+**Done**
+
+- [x] test for
   - [x] `updateMove`
   - [x] `isBombPresent`
   - [x] `validMoves`
-  - [ ] `isDirectionValid`
+  - [x] `isDirectionValid`
   - [x] `validateMove`
   - [x] `playRound`
-- [ ] Refactor valid move
-**Done**
-
 - [x] `updateMove` is updating the move.
 - [x] `isBombPresent` is checking if the path has bomb or not.
 - [x] `validMoves` is giving all the possible moves.

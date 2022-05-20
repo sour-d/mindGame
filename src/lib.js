@@ -54,3 +54,4 @@ exports.validateMove = validateMove;
 exports.validMoves = validMoves;
 exports.updateMove = updateMove;
 exports.isBombPresent = isBombPresent;
+exports.isDirectionValid = isDirectionValid;

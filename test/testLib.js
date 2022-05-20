@@ -1,5 +1,12 @@
 const assert = require('assert');
-const { playRound, validateMove, validMoves, updateMove, isBombPresent } = require('../src/lib.js');
+const {
+  playRound,
+  validateMove,
+  validMoves,
+  updateMove,
+  isBombPresent,
+  isDirectionValid
+} = require('../src/lib.js');
 
 describe('playRound', () => {
   it('should change currentPositon if move is valid', () => {
@@ -122,5 +129,30 @@ describe('updateMove', () => {
       'totalColumn': 3,
     };
     assert.deepStrictEqual(isBombPresent(data, 2), false);
+  });
+});
+
+describe('isDirectionValid', () => {
+  it('should return true if direction is valid', () => {
+    const data = {
+      'validPaths': [2, 3, 4],
+      'currentPosition': 5,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(isDirectionValid(data, 2), true);
+  });
+  it('should return false if direction is invalid', () => {
+    const data = {
+      'validPaths': [2, 3, 4],
+      'currentPosition': 5,
+      'previousPosition': null,
+      'lastRoundStatus': true,
+      'totalRow': 3,
+      'totalColumn': 3,
+    };
+    assert.deepStrictEqual(isDirectionValid(data, 9), false);
   });
 });
